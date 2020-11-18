@@ -99,7 +99,7 @@ class VView(QMainWindow):
         self.conf.save()
         QCoreApplication.instance().quit()
         return
-    def message(self, msg, showLastMsg = True):
+    def message(self, msg, showLastMsg=True):
         self.m_last_msg = self.m_msg
         self.m_msg = msg
         show_msg = ""
@@ -113,7 +113,7 @@ class VView(QMainWindow):
         
     def add_button(self, panel, label, width, height):
         button = QtGui.QPushButton(label)
-        #button.setFixedWidth(width)        
+        #button.setFixedWidth(width)
         #button.setFixedHeight(height)
         panel.addWidget(button)
         return button
@@ -149,8 +149,8 @@ class VView(QMainWindow):
         
     def update_ui(self):
         self.widget_arr['first_layer_thickness_edit'].setText(str(self.conf.get('first_layer_thickness')))
-        self.widget_arr['layer_thickness_edit'].setText      (str(self.conf.get('layer_thickness')))
-        self.widget_arr['infill_offset_edit'].setText      (str(self.conf.get('infill_offset')))
+        self.widget_arr['layer_thickness_edit'].setText(str(self.conf.get('layer_thickness')))
+        self.widget_arr['infill_offset_edit'].setText(str(self.conf.get('infill_offset')))
         self.update()
        
     def initUI(self):      
@@ -183,37 +183,37 @@ class VView(QMainWindow):
         self.widget_arr['cb_fillpattern'] = QtGui.QComboBox()           
         
         self.widget_arr['first_layer_thickness'] = QtGui.QLabel('First Layer Thickness')
-        self.widget_arr['first_layer_thickness_edit'] = QtGui.QLineEdit();
+        self.widget_arr['first_layer_thickness_edit'] = QtGui.QLineEdit()
         self.widget_arr['first_layer_thickness_edit'].textChanged.connect(self.update_variable_first_layer_thickness)
        
         self.widget_arr['layer_thickness'] = QtGui.QLabel('Layer Thickness')
-        self.widget_arr['layer_thickness_edit'] = QtGui.QLineEdit();
+        self.widget_arr['layer_thickness_edit'] = QtGui.QLineEdit()
         self.widget_arr['layer_thickness_edit'].textChanged.connect(self.update_variable_layer_thickness)
         
         self.widget_arr['infill_offset'] = QtGui.QLabel('infill_offset')
-        self.widget_arr['infill_offset_edit'] = QtGui.QLineEdit();
+        self.widget_arr['infill_offset_edit'] = QtGui.QLineEdit()
         self.widget_arr['infill_offset_edit'].textChanged.connect(self.update_variable_infill_offset)        
         
    
-        # Add widgets     
+        # Add widgets
         for wt in self.widget_arr.values():            
             lw_layout.addWidget(wt)       
-        # Buttons       
+        # Buttons
         bt_height = 75
         bt_width = 200
-        load_button       = self.add_button(lw_layout, "LOAD", bt_width, bt_height)
+        load_button = self.add_button(lw_layout, "Load Model", bt_width, bt_height)
         autolayout_button = self.add_button(lw_layout, "Auto Layout", bt_width, bt_height)
-        slice_button      = self.add_button(lw_layout, "SLICE", bt_width, bt_height)
-        fill_button       = self.add_button(lw_layout, "FILL", bt_width, bt_height)
-        connectp_button   = self.add_button(lw_layout, "Connect Printer...", bt_width, bt_height)
-        print_seq_button  = self.add_button(lw_layout, "Print Sequence", bt_width, bt_height)
-        print_path_button = self.add_button(lw_layout, "Gen Path", bt_width, bt_height)
-        gcode_button      = self.add_button(lw_layout, "Gen GCode", bt_width, bt_height)        
-        printto_button    = self.add_button(lw_layout, "Print...", bt_width, bt_height)
-        clear_button      = self.add_button(lw_layout, "CLEAR", bt_width, bt_height)
-        quit_button       = self.add_button(lw_layout, "QUIT", bt_width, bt_height)       
+        slice_button = self.add_button(lw_layout, "Slice Model", bt_width, bt_height)
+        fill_button = self.add_button(lw_layout, "Filling with Fermat Curve", bt_width, bt_height)
+        connectp_button = self.add_button(lw_layout, "Connect Printer...", bt_width, bt_height)
+        print_seq_button = self.add_button(lw_layout, "Print Sequence", bt_width, bt_height)
+        print_path_button = self.add_button(lw_layout, "Generate Path", bt_width, bt_height)
+        gcode_button = self.add_button(lw_layout, "Generate GCode", bt_width, bt_height)        
+        printto_button = self.add_button(lw_layout, "Print...", bt_width, bt_height)
+        clear_button = self.add_button(lw_layout, "Clear", bt_width, bt_height)
+        quit_button = self.add_button(lw_layout, "Exit Program", bt_width, bt_height)       
 
-        # Act connection        
+        # Act connection
         quit_button.clicked.connect(self.quit)    
         load_button.clicked.connect(self.openStlDialog)
         slice_button.clicked.connect(self.slice)
@@ -257,18 +257,18 @@ class VView(QMainWindow):
         self.update_ui()
 
     def add_3d_printing_region(self):
-        xScale = 5
-        yScale = 5
-        zScale = 5
+        xScale = 22
+        yScale = 22
+        zScale = 20
         gx = gl.GLGridItem()
         gx.scale(xScale, yScale, zScale)
         gx.rotate(90, 0, 1, 0)
-        gx.translate(-10*xScale, 0, 10*zScale)
+        gx.translate(-10 * xScale, 0, 10 * zScale)
         self.view.addItem(gx)
         gy = gl.GLGridItem()
         gy.scale(xScale, yScale, zScale)
         gy.rotate(90, 1, 0, 0)
-        gy.translate(0, -10*yScale, 10*zScale)
+        gy.translate(0, -10 * yScale, 10 * zScale)
         self.view.addItem(gy)
         gz = gl.GLGridItem()
         gz.scale(xScale, yScale, zScale)
@@ -279,8 +279,7 @@ class VView(QMainWindow):
         
     def openStlDialog(self):
 
-        fname = QFileDialog.getOpenFileName(self, 'Open file', '', 
-                                            "Mesh (*.stl);")
+        fname = QFileDialog.getOpenFileName(self, 'Open file', '', "Mesh (*.stl);")
 
         if fname[0]:
             ext_file = path.splitext(fname[0])[1]
@@ -296,9 +295,9 @@ class VView(QMainWindow):
             #self.mesh_info.path = fname[0]
             self.mesh = self.mesh_info.load(fname[0])
             self.message(self.mesh_info.get_info())
-            verts = self.mesh.vectors.reshape(self.mesh.vectors.shape[0]*3,3)
+            verts = self.mesh.vectors.reshape(self.mesh.vectors.shape[0] * 3,3)
             n_face = self.mesh.vectors.shape[0]
-            faces = np.arange(n_face*3)
+            faces = np.arange(n_face * 3)
             faces = faces.reshape(n_face, 3)
             colors = [1,0,0,0.3]
             colors = colors * n_face
@@ -339,7 +338,7 @@ class VView(QMainWindow):
         self.sl.setValue(0)        
                 
     def slice(self):
-        if( len(self.mesh) == 0):
+        if(len(self.mesh) == 0):
             self.message('Load mesh first!')
             return
     
@@ -349,7 +348,7 @@ class VView(QMainWindow):
             #remove all files in images
             filelist = [ f for f in os.listdir("./images") if f.endswith(".png") ]            
             for f in filelist:
-                os.remove(os.path.join(curdir+"/images", f))  
+                os.remove(os.path.join(curdir + "/images", f))  
         else:
             os.mkdir("images")
         self.out_path = os.path.join(curdir, "images/slice-%d.png")
@@ -368,13 +367,12 @@ class VView(QMainWindow):
                                                                      self.mesh_info.image_width, self.mesh_info.image_height, 
                                                                      self.out_path,
                                                                      self.mesh_info.border_size,
-                                                                     func = lambda i: self.message("slicing layer " + str(i+1) + "/" + str_layers, False)
-                                )
+                                                                     func = lambda i: self.message("slicing layer " + str(i + 1) + "/" + str_layers, False))
     
     
         self.mesh_info.real_pixel_size, self.mesh_info.real_pixel_size, self.gcode_minx, self.gcode_miny = x_pixel_size, y_pixel_size, x0, y0 
         self.message('Slicing mesh into ' + self.out_path)
-        self.message(self.mesh_info.get_info() )
+        self.message(self.mesh_info.get_info())
     
         im = cv2.imread(self.out_path % 0)
         tex1 = cv2.cvtColor(im, cv2.COLOR_BGR2RGBA) 
@@ -382,7 +380,7 @@ class VView(QMainWindow):
         v1.translate(0, 0, 0)        
         self.view_slice.addItem(v1)  
     
-        # activate slider 
+        # activate slider
         self.sl.setMinimum(0)
         self.sl.setMaximum(self.mesh_info.get_layers() - 1)  
         self.sl.setValue(0)
@@ -400,7 +398,7 @@ class VView(QMainWindow):
     def fill(self):
         try:
             i = self.sl.value()
-            self.message("Show slice {}.".format(i+1), False)
+            self.message("Show slice {}.".format(i + 1), False)
             curdir = os.getcwd()
             filepath = self.out_path % i
             offset = self.conf.get("infill_offset")
@@ -417,7 +415,7 @@ class VView(QMainWindow):
             #################################
             def generate_RGB_list(N):
                 import colorsys
-                HSV_tuples = [(x*1.0/N, 0.8, 0.9) for x in range(N)]
+                HSV_tuples = [(x * 1.0 / N, 0.8, 0.9) for x in range(N)]
                 RGB_tuples = map(lambda x: colorsys.hsv_to_rgb(*x), HSV_tuples)
                 rgb_list = tuple(RGB_tuples)
                 return np.array(rgb_list) * 255   
@@ -450,31 +448,34 @@ class VView(QMainWindow):
         self.update_var()
         self.mesh_info.first_layer_thicknes = self.conf.get("first_layer_thickness")
         self.mesh_info.layer_thickness = self.conf.get("layer_thickness")        
-        #self.mesh_info.init(self.mesh_info.pixel_size, self.mesh_info.first_layer_thickness, self.mesh_info.layer_thickness)
+        #self.mesh_info.init(self.mesh_info.pixel_size,
+        #self.mesh_info.first_layer_thickness, self.mesh_info.layer_thickness)
         self.message(self.mesh_info.get_info())
         curdir = os.getcwd()        
         if(path.isdir("images")):
             #remove all files in images
             filelist = [ f for f in os.listdir("./images") if f.endswith(".png") ]            
             for f in filelist:
-                os.remove(os.path.join(curdir+"/images", f))  
+                os.remove(os.path.join(curdir + "/images", f))  
         else:
             os.mkdir("images")
         self.out_path = os.path.join(curdir, "images")        
         self.path_verts = mkspiral.gen_continuous_path(self.mesh_info, self.out_path, 20000, self.conf.get("infill_offset"))
-        #self.path_verts = mkspiral.gen_continuous_path_with_constraint(self.mesh_info, self.out_path, 2000, 60,self.conf.get("infill_offset"))  
+        #self.path_verts =
+        #mkspiral.gen_continuous_path_with_constraint(self.mesh_info,
+        #self.out_path, 2000, 60,self.conf.get("infill_offset"))
         plt = gl.GLLinePlotItem(pos=self.path_verts, color=pg.glColor('r'), width= 1, antialias=True)
         
         self.view_slice.addItem(plt)      
         self.view_slice.setBackgroundColor(pg.mkColor('w'))
         return
     def show_slice(self):
-        #if len(self.slices) == 0:            
+        #if len(self.slices) == 0:
         #    return
         i = self.sl.value()
         if i < 0:
             return
-        self.message("Show slice {}.".format(i+1), False)
+        self.message("Show slice {}.".format(i + 1), False)
         curdir = os.getcwd()
         
         im = cv2.imread(self.out_path % i)
@@ -488,24 +489,24 @@ class VView(QMainWindow):
         
     def gen_gcode(self):
         if len(self.path_verts) == 0:
-            self.message("Please press `Gen Path` first")
+            self.message("Please press `Generate Path` button first")
             return
-        fname = QFileDialog.getSaveFileName(self, 'Save file', '', 
-                                            "Mesh (*.gcode);")
+        fname = QFileDialog.getSaveFileName(self, 'Save file', '', "Path (*.txt);")
 
-        if fname[0]:
-            ext_file = path.splitext(fname[0])[1]
-            if  ext_file.lower() not in fname[1]:
-                
-                self.gcode_path = fname[0] + '.gcode'
-            else:
-                self.gcode_path = fname[0]
-        else:
+        #if fname[0]:
+        #    ext_file = path.splitext(fname[0])[1]
+        #    if ext_file.lower() not in fname[1]:
+        #        self.gcode_path = fname[0]
+        #    else:
+        #        self.gcode_path = fname[0]
+        #else:
+        #    return
+        if ~fname[0]:
             return
         
-        np.savetxt(self.gcode_path+'.txt', self.path_verts, fmt='%.4f')                
-          
+        np.savetxt(self.gcode_path + '.txt', self.path_verts, fmt='%.6f')
         return
+
     def clear(self):
         self.message(self.mesh_info.get_info())
         self.is_fill_path = False

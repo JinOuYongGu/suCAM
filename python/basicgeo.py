@@ -5,14 +5,14 @@ from collections import namedtuple
 def OctahedronAngle(x, y, z):
     s = abs(x) + abs(y) + abs(z)
     if z >= 0:
-        return x/s, y/s
+        return x / s, y / s
     if x >= 0:
         if y >= 0:
-            return 1 - y/s, 1 - x/s
-        return 1 + y/s, -1 + x/s
+            return 1 - y / s, 1 - x / s
+        return 1 + y / s, -1 + x / s
     if y >= 0:
-        return -1 + y/s, 1 + x/s
-    return -1 - y/s, -1 - x/s
+        return -1 + y / s, 1 + x / s
+    return -1 - y / s, -1 - x / s
 
 class P2(namedtuple('P2', ['u', 'v'])):
     __slots__ = ()
@@ -25,19 +25,19 @@ class P2(namedtuple('P2', ['u', 'v'])):
     def __sub__(self, a):
         return P2(self.u - a.u, self.v - a.v)
     def __mul__(self, a):
-        return P2(self.u*a, self.v*a)
+        return P2(self.u * a, self.v * a)
     def __neg__(self):
         return P2(-self.u, -self.v)
     def __rmul__(self, a):
         raise TypeError
     def Lensq(self):
-        return self.u*self.u + self.v*self.v
+        return self.u * self.u + self.v * self.v
     def Len(self):
         if self.u == 0.0:  return abs(self.v)
         if self.v == 0.0:  return abs(self.u)
-        return math.sqrt(self.u*self.u + self.v*self.v)
+        return math.sqrt(self.u * self.u + self.v * self.v)
     def LenLZ(self):
-        return math.sqrt(self.x*self.x + self.y*self.y)
+        return math.sqrt(self.x * self.x + self.y * self.y)
     def Arg(self):
         return math.degrees(math.atan2(self.v, self.u))
         
@@ -48,17 +48,17 @@ class P2(namedtuple('P2', ['u', 'v'])):
         
     @staticmethod
     def Dot(a, b):
-        return a.u*b.u + a.v*b.v
+        return a.u * b.u + a.v * b.v
     @staticmethod
     def DotLZ(a, b):
-        return a.u*b.x + a.v*b.y
+        return a.u * b.x + a.v * b.y
 
     @staticmethod
     def ZNorm(v):
         ln = v.Len()
         if ln == 0.0:  
             ln = 1.0
-        return P2(v.u/ln, v.v/ln)
+        return P2(v.u / ln, v.v / ln)
             
     @staticmethod
     def APerp(v):
@@ -83,17 +83,17 @@ class P3(namedtuple('P3', ['x', 'y', 'z'])):
     def __sub__(self, a):
         return P3(self.x - a.x, self.y - a.y, self.z - a.z)
     def __mul__(self, a):
-        return P3(self.x*a, self.y*a, self.z*a)
+        return P3(self.x * a, self.y * a, self.z * a)
     def __neg__(self):
         return P3(-self.x, -self.y, -self.z)
     def __rmul__(self, a):
         raise TypeError
     def Lensq(self):
-        return self.x*self.x + self.y*self.y + self.z*self.z
+        return self.x * self.x + self.y * self.y + self.z * self.z
     def Len(self):
         return math.sqrt(self.Lensq())
     def LenLZ(self):
-        return math.sqrt(self.x*self.x + self.y*self.y)
+        return math.sqrt(self.x * self.x + self.y * self.y)
         
         
     def assertlen1(self):
@@ -102,11 +102,11 @@ class P3(namedtuple('P3', ['x', 'y', 'z'])):
         
     @staticmethod
     def Dot(a, b):
-        return a.x*b.x + a.y*b.y + a.z*b.z
+        return a.x * b.x + a.y * b.y + a.z * b.z
 
     @staticmethod
     def Cross(a, b):
-        return P3(a.y*b.z - b.y*a.z, -a.x*b.z + b.x*a.z, a.x*b.y - b.x*a.y)
+        return P3(a.y * b.z - b.y * a.z, -a.x * b.z + b.x * a.z, a.x * b.y - b.x * a.y)
 
     @staticmethod
     def Diff(a, b, bfore):
@@ -118,7 +118,7 @@ class P3(namedtuple('P3', ['x', 'y', 'z'])):
         ln = v.Len()
         if ln == 0.0:  
             ln = 1.0
-        return P3(v.x/ln, v.y/ln, v.z/ln)
+        return P3(v.x / ln, v.y / ln, v.z / ln)
             
     @staticmethod
     def ConvertGZ(p, z):  
@@ -178,7 +178,7 @@ class Partition1:
         self.lo = lo
         self.hi = hi
         self.nparts = nparts
-        self.vs = [ self.DAlong(i*1.0/nparts)  for i in range(0, nparts+1) ]
+        self.vs = [ self.DAlong(i * 1.0 / nparts)  for i in range(0, nparts + 1) ]
         assert (lo, hi) == (self.vs[0], self.vs[-1])
         assert len(self.vs) == nparts + 1
         
@@ -192,8 +192,8 @@ class Partition1:
             i -= 1
         elif i < self.nparts - 1 and v >= self.vs[i + 1]:
             i += 1
-        assert self.vs[i] <= v <= self.vs[i+1], (v, "not between", self.vs[i], self.vs[i+1])
-        assert i == self.nparts - 1 or v < self.vs[i+1]
+        assert self.vs[i] <= v <= self.vs[i + 1], (v, "not between", self.vs[i], self.vs[i + 1])
+        assert i == self.nparts - 1 or v < self.vs[i + 1]
         return i
 
     def GetPartRange(self, vlo, vhi):
@@ -224,70 +224,70 @@ class Quat:
         self.q1 = q1
         self.q2 = q2
         self.q3 = q3
-        self.iqsq = 1/((self.q0**2 + self.q1**2 + self.q2**2 + self.q3**2) or 1)
+        self.iqsq = 1 / ((self.q0 ** 2 + self.q1 ** 2 + self.q2 ** 2 + self.q3 ** 2) or 1)
 
     def __mul__(self, a):
-        return Quat(a.q0*self.q0 - a.q1*self.q1 - a.q2*self.q2 - a.q3*self.q3, 
-                    a.q0*self.q1 + a.q1*self.q0 + a.q2*self.q3 - a.q3*self.q2, 
-                    a.q0*self.q2 - a.q1*self.q3 + a.q2*self.q0 + a.q3*self.q1, 
-                    a.q0*self.q3 + a.q1*self.q2 - a.q2*self.q1 + a.q3*self.q0) 
+        return Quat(a.q0 * self.q0 - a.q1 * self.q1 - a.q2 * self.q2 - a.q3 * self.q3, 
+                    a.q0 * self.q1 + a.q1 * self.q0 + a.q2 * self.q3 - a.q3 * self.q2, 
+                    a.q0 * self.q2 - a.q1 * self.q3 + a.q2 * self.q0 + a.q3 * self.q1, 
+                    a.q0 * self.q3 + a.q1 * self.q2 - a.q2 * self.q1 + a.q3 * self.q0) 
     
     def VecDots(self):
-        r00 = self.q0*self.q0*2 * self.iqsq
-        r11 = self.q1*self.q1*2 * self.iqsq
-        r22 = self.q2*self.q2*2 * self.iqsq
-        r33 = self.q3*self.q3*2 * self.iqsq
-        r01 = self.q0*self.q1*2 * self.iqsq
-        r02 = self.q0*self.q2*2 * self.iqsq
-        r03 = self.q0*self.q3*2 * self.iqsq
-        r12 = self.q1*self.q2*2 * self.iqsq
-        r13 = self.q1*self.q3*2 * self.iqsq
-        r23 = self.q2*self.q3*2 * self.iqsq
-        return ( P3(r00 - 1 + r11,   r12 + r03,         r13 - r02     ),
-                 P3(r12 - r03,       r00 - 1 + r22,     r23 + r01     ),
-                 P3(r13 + r02,       r23 - r01,         r00 - 1 + r33 ))
+        r00 = self.q0 * self.q0 * 2 * self.iqsq
+        r11 = self.q1 * self.q1 * 2 * self.iqsq
+        r22 = self.q2 * self.q2 * 2 * self.iqsq
+        r33 = self.q3 * self.q3 * 2 * self.iqsq
+        r01 = self.q0 * self.q1 * 2 * self.iqsq
+        r02 = self.q0 * self.q2 * 2 * self.iqsq
+        r03 = self.q0 * self.q3 * 2 * self.iqsq
+        r12 = self.q1 * self.q2 * 2 * self.iqsq
+        r13 = self.q1 * self.q3 * 2 * self.iqsq
+        r23 = self.q2 * self.q3 * 2 * self.iqsq
+        return (P3(r00 - 1 + r11,   r12 + r03,         r13 - r02),
+                 P3(r12 - r03,       r00 - 1 + r22,     r23 + r01),
+                 P3(r13 + r02,       r23 - r01,         r00 - 1 + r33))
 
     def VecDots0(self):
-        r00 = self.q0*self.q0*2 * self.iqsq
-        r11 = self.q1*self.q1*2 * self.iqsq
-        r02 = self.q0*self.q2*2 * self.iqsq
-        r03 = self.q0*self.q3*2 * self.iqsq
-        r12 = self.q1*self.q2*2 * self.iqsq
-        r13 = self.q1*self.q3*2 * self.iqsq
-        return P3(r00 - 1 + r11,   r12 + r03,         r13 - r02     )
+        r00 = self.q0 * self.q0 * 2 * self.iqsq
+        r11 = self.q1 * self.q1 * 2 * self.iqsq
+        r02 = self.q0 * self.q2 * 2 * self.iqsq
+        r03 = self.q0 * self.q3 * 2 * self.iqsq
+        r12 = self.q1 * self.q2 * 2 * self.iqsq
+        r13 = self.q1 * self.q3 * 2 * self.iqsq
+        return P3(r00 - 1 + r11,   r12 + r03,         r13 - r02)
         
     def VecDots1(self):
-        r00 = self.q0*self.q0*2 * self.iqsq
-        r22 = self.q2*self.q2*2 * self.iqsq
-        r01 = self.q0*self.q1*2 * self.iqsq
-        r03 = self.q0*self.q3*2 * self.iqsq
-        r12 = self.q1*self.q2*2 * self.iqsq
-        r23 = self.q2*self.q3*2 * self.iqsq
-        return P3(r12 - r03,       r00 - 1 + r22,     r23 + r01     )
+        r00 = self.q0 * self.q0 * 2 * self.iqsq
+        r22 = self.q2 * self.q2 * 2 * self.iqsq
+        r01 = self.q0 * self.q1 * 2 * self.iqsq
+        r03 = self.q0 * self.q3 * 2 * self.iqsq
+        r12 = self.q1 * self.q2 * 2 * self.iqsq
+        r23 = self.q2 * self.q3 * 2 * self.iqsq
+        return P3(r12 - r03,       r00 - 1 + r22,     r23 + r01)
         
     def VecDots2(self):
-        r00 = self.q0*self.q0*2 * self.iqsq
-        r33 = self.q3*self.q3*2 * self.iqsq
-        r01 = self.q0*self.q1*2 * self.iqsq
-        r02 = self.q0*self.q2*2 * self.iqsq
-        r13 = self.q1*self.q3*2 * self.iqsq
-        r23 = self.q2*self.q3*2 * self.iqsq
-        return P3(r13 + r02,       r23 - r01,         r00 - 1 + r33 )
+        r00 = self.q0 * self.q0 * 2 * self.iqsq
+        r33 = self.q3 * self.q3 * 2 * self.iqsq
+        r01 = self.q0 * self.q1 * 2 * self.iqsq
+        r02 = self.q0 * self.q2 * 2 * self.iqsq
+        r13 = self.q1 * self.q3 * 2 * self.iqsq
+        r23 = self.q2 * self.q3 * 2 * self.iqsq
+        return P3(r13 + r02,       r23 - r01,         r00 - 1 + r33)
                                             
     def VecDotsT(self):   # transposed
-        r00 = self.q0*self.q0*2 * self.iqsq
-        r11 = self.q1*self.q1*2 * self.iqsq
-        r22 = self.q2*self.q2*2 * self.iqsq
-        r33 = self.q3*self.q3*2 * self.iqsq
-        r01 = self.q0*self.q1*2 * self.iqsq
-        r02 = self.q0*self.q2*2 * self.iqsq
-        r03 = self.q0*self.q3*2 * self.iqsq
-        r12 = self.q1*self.q2*2 * self.iqsq
-        r13 = self.q1*self.q3*2 * self.iqsq
-        r23 = self.q2*self.q3*2 * self.iqsq
-        return ( P3(r00 - 1 + r11,   r12 - r03,         r13 + r02     ),
-                 P3(r12 + r03,       r00 - 1 + r22,     r23 - r01     ),
-                 P3(r13 - r02,       r23 + r01,         r00 - 1 + r33 ))
+        r00 = self.q0 * self.q0 * 2 * self.iqsq
+        r11 = self.q1 * self.q1 * 2 * self.iqsq
+        r22 = self.q2 * self.q2 * 2 * self.iqsq
+        r33 = self.q3 * self.q3 * 2 * self.iqsq
+        r01 = self.q0 * self.q1 * 2 * self.iqsq
+        r02 = self.q0 * self.q2 * 2 * self.iqsq
+        r03 = self.q0 * self.q3 * 2 * self.iqsq
+        r12 = self.q1 * self.q2 * 2 * self.iqsq
+        r13 = self.q1 * self.q3 * 2 * self.iqsq
+        r23 = self.q2 * self.q3 * 2 * self.iqsq
+        return (P3(r00 - 1 + r11,   r12 - r03,         r13 + r02),
+                 P3(r12 + r03,       r00 - 1 + r22,     r23 - r01),
+                 P3(r13 - r02,       r23 + r01,         r00 - 1 + r33))
 
     def __repr__(self):
         return "Quat(%f,%f,%f,%f)" % (self.q0, self.q1, self.q2, self.q3)
