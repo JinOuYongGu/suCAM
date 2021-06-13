@@ -537,7 +537,7 @@ class VView(QMainWindow):
         nozzle_diameter = self.conf.get('infill_offset') * -0.1
         layer_thickness = self.conf.get('layer_thickness')
         gcode = gen_gcode.generate_gcode(
-            self.path_verts, nozzle_diameter, layer_thickness, 6)
+            self.path_verts, nozzle_diameter, layer_thickness)
         f = open(self.gcode_path, 'w')
         for line in gcode:
             f.writelines(line + "\n")
